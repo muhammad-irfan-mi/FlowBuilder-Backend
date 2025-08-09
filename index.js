@@ -221,6 +221,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
 const PORT = 5001;
@@ -228,13 +229,17 @@ const PORT = 5001;
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 
-const MONGO_URL = 'mongodb+srv://backendapi:mMrsKprBMVxUdqbP@cluster0.z3vm7yg.mongodb.net/BotFlow?retryWrites=true&w=majority&appName=Cluster0';
+// const MONGO_URL = 'mongodb+srv://backendapi:mMrsKprBMVxUdqbP@cluster0.z3vm7yg.mongodb.net/BotFlow?retryWrites=true&w=majority&appName=Cluster0';
 // const MONGO_URL = 'mongodb://localhost:27017/flowsDB';
+const mongoUrl = process.env.MONGO_URL;
 
-mongoose.connect(MONGO_URL, {
+
+mongoose.connect(mongoUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-});
+})
+  .then(() => console.log("✅ MongoDB connected"))
+  .catch(err => console.error("❌ MongoDB connection error:", err));
 
 const FlowSchema = new mongoose.Schema({
   name: String,
@@ -273,6 +278,10 @@ const FlowDataSchema = new mongoose.Schema({
 const Flow = mongoose.model("Flow", FlowSchema);
 const FlowNode = mongoose.model("FlowNode", NodeSchema);
 const FlowData = mongoose.model("FlowData", FlowDataSchema);
+
+app.get('/test', async (req, res) => {
+  res.send({ msg: "Hello From flow Server" })
+})
 
 // Routes for basic flow info
 app.get("/api/flows", async (req, res) => {
