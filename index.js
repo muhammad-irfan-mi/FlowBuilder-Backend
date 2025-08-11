@@ -4,7 +4,6 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
-const PORT = 5001;
 
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
@@ -312,6 +311,6 @@ app.post("/api/publish-flow/:flowId", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Server running at http://localhost:${process.env.PORT}`);
 });
