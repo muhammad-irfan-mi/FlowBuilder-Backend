@@ -8,8 +8,6 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 
-// const MONGO_URL = 'mongodb+srv://backendapi:mMrsKprBMVxUdqbP@cluster0.z3vm7yg.mongodb.net/BotFlow?retryWrites=true&w=majority&appName=Cluster0';
-// const MONGO_URL = 'mongodb://localhost:27017/flowsDB';
 const mongoUrl = process.env.MONGO_URL;
 
 
