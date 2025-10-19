@@ -169,6 +169,10 @@ app.post("/api/flow-data/:flowId", async (req, res) => {
     { upsert: true, new: true }
   );
 
+  await Flow.findByIdAndUpdate(flowId, {
+    modified: new Date().toISOString(),
+  });
+
   res.sendStatus(200);
 });
 
@@ -187,6 +191,11 @@ app.post("/api/save-content/:flowId", async (req, res) => {
       },
       { upsert: true }
     );
+    
+    await Flow.findByIdAndUpdate(flowId, {
+      modified: new Date().toISOString(),
+    });
+
     res.sendStatus(200);
   } catch (error) {
     console.error('Error saving content:', error);
